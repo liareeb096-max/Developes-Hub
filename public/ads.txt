@@ -1,0 +1,2 @@
+# Add the exact ads.txt line(s) supplied by your advertising network here.
+# Do not invent publisher IDs.
