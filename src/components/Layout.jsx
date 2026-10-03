@@ -66,7 +66,10 @@ export default function Layout({ children }) {
       <main>{children}</main>
       <footer className="border-t border-white/10 py-12">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <AdSlot size="leaderboard" className="mb-10" />
+          
+          {/* Footer Bottom Banner Ad (728x90) */}
+          <AdSlot adKey="ccee1aa970c24fada2d7114684e1fd70" size="leaderboard" className="mb-10" />
+          
           <div className="grid gap-8 md:grid-cols-3">
             <div>
               <div className="mb-3 flex items-center gap-2 font-bold">

@@ -1,39 +1,44 @@
 import { useEffect, useRef } from 'react';
 
-export default function AdSlot({ size = 'leaderboard', className = '' }) {
-  const adContainerRef = useRef(null);
+export default function AdSlot({ size = 'leaderboard', adKey = '', className = '' }) {
+  const iframeRef = useRef(null);
 
   useEffect(() => {
-    // Check lagaya hai taake ad do-do baar load na ho
-    if (adContainerRef.current && adContainerRef.current.children.length === 0) {
-      
-      // 1. Adsterra ki Settings
-      const conf = document.createElement('script');
-      conf.type = 'text/javascript';
-      conf.innerHTML = `
-        atOptions = {
-          'key' : 'ccee1aa970c24fada2d7114684e1fd70',
-          'format' : 'iframe',
-          'height' : 90,
-          'width' : 728,
-          'params' : {}
-        };
-      `;
+    if (!adKey || !iframeRef.current) return;
 
-      // 2. Adsterra ka Main Script
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      // Neechay wale link mein bhi apni key dalna mat bhoolna
-      script.src = 'https://www.highrevenueformat.com/ccee1aa970c24fada2d7114684e1fd70/invoke.js';
+    let width = size === 'rectangle' ? 300 : 728;
+    let height = size === 'rectangle' ? 250 : 90;
 
-      adContainerRef.current.appendChild(conf);
-      adContainerRef.current.appendChild(script);
-    }
-  }, []);
+    const doc = iframeRef.current.contentWindow.document;
+    doc.open();
+    doc.write(`
+      <html>
+        <head>
+          <style>body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; background: transparent; overflow: hidden; }</style>
+        </head>
+        <body>
+          <script type="text/javascript">
+            atOptions = {
+              'key' : '${adKey}',
+              'format' : 'iframe',
+              'height' : ${height},
+              'width' : ${width},
+              'params' : {}
+            };
+          </script>
+          <script type="text/javascript" src="//www.highperformanceformat.com/${adKey}/invoke.js"></script>
+        </body>
+      </html>
+    `);
+    doc.close();
+  }, [adKey, size]);
+
+  let w = size === 'rectangle' ? 300 : 728;
+  let h = size === 'rectangle' ? 250 : 90;
 
   return (
-    <div className={`flex justify-center items-center my-4 overflow-hidden min-h-[90px] ${className}`} ref={adContainerRef}>
-      {/* Banner Ad automatically is div ke andar aayega */}
+    <div className={`flex justify-center items-center overflow-hidden min-h-[${h}px] ${className}`}>
+      <iframe ref={iframeRef} width={w} height={h} frameBorder="0" scrolling="no" title="Advertisement"></iframe>
     </div>
   );
 }
