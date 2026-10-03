@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export default function AdSlot({ size = 'leaderboard', adKey = '', className = '' }) {
+export default function AdSlot({ size = 'leaderboard', adKey = 'ccee1aa970c24fada2d7114684e1fd70', className = '' }) {
   const iframeRef = useRef(null);
 
   useEffect(() => {
